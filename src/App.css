@@ -1,0 +1,201 @@
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+:where(.css-dev-only-do-not-override-1k979oh).ant-select-single
+  .ant-select-selector {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 0.2rem;
+  line-height: 1.5714285714285714;
+  list-style: none;
+  font-family: inherit;
+  display: flex;
+  border-radius: 0.65vw;
+}
+
+:where(.css-dev-only-do-not-override-1k979oh).ant-table-wrapper
+  .ant-table-container
+  table
+  > thead
+  > tr:first-child
+  > *:first-child {
+  border-start-start-radius: 0.6vw;
+}
+
+:where(.css-dev-only-do-not-override-16ehen0).ant-table-wrapper .ant-table-container table>thead>tr:first-child >*:first-child {
+  border-start-start-radius: 8px;
+  border-top-left-radius: 1.2vw;
+  border-bottom-left-radius: 1.2vw;
+}
+
+:where(.css-dev-only-do-not-override-16ehen0).ant-table-wrapper .ant-table-container table>thead>tr:first-child >*:last-child {
+  border-start-end-radius: 8px;
+  border-top-right-radius: 1.2vw;
+  border-bottom-right-radius: 1.2vw;
+}
+/* Custom Checkbox Size */
+.custom-table .ant-checkbox-inner {
+  /* margin-left: 1.5vw; */
+  width: 1.1vw !important;
+  height: 1.1vw !important;
+  border: 0.1vw solid #3348ff !important;
+}
+
+.custom-table .ant-checkbox-wrapper {
+  transform: scale(3vw);
+  /* margin-left: 1.5vw; */
+}
+
+.custom-table .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: #3348ff !important;
+  /* margin-left: 1.5vw; */
+}
+
+/* Optional: Change the checkmark color */
+.custom-table .ant-checkbox-checked .ant-checkbox-inner::after {
+  border-color: white !important;
+  /* margin-left: 1.2vw; */
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  border-bottom: none !important; /* Remove the default row borders */
+}
+
+/* Apply hover effect only to table rows, not the header */
+.custom-table .ant-table-tbody > tr:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.185),
+    /* Bottom shadow */ 0 -2px 4px rgba(0, 0, 0, 0.185),
+    /* Top shadow */ 2px 0 4px rgba(0, 0, 0, 0.185),
+    /* Right shadow */ -2px 0 4px rgba(0, 0, 0, 0.185); /* Left shadow */
+  border-radius: 1.2vw; /* Rounded corners */
+  transition: all 0.3s ease; /* Smooth transition */
+}
+.custom-table .ant-table-tbody > tr + tr {
+  margin-top: 1vw; /* Add space between rows */
+  height: 0.5vw;
+  padding: 0;
+}
+
+/* Make sure the header doesn't have this hover effect */
+.custom-table .ant-table-thead > tr:hover {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.custom-table .ant-table-selection-column {
+  padding-left: 2vw !important; /* Add left padding */
+}
+.ant-table-row .ant-table-row-level-0 {
+  height: 3vh;
+}
+
+/* Example CSS */
+.ant-table thead th {
+  height: 1vh;
+}
+
+/* Example CSS */
+.ant-table-tbody > tr > td {
+  height: 3vh;
+  /* Adjust height as per your requirement */
+}
+
+.ant-table-cell {
+  padding: 0.4vh !important; /* Removes the default padding */
+}
+
+.ant-table-column-sorter {
+  color: rgb(0 0 0) !important;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+/* Hide the date display wrapper */
+.rdrDateDisplayWrapper {
+  display: none !important;
+}
+
+/* Hide the month and year pickers */
+.rdrMonthAndYearPickers {
+  display: none !important;
+}
+
+/* Hide the defined ranges wrapper (e.g., Last Week, Last Month) */
+.rdrDefinedRangesWrapper {
+  display: none !important;
+}
+
+.rdrCalendarWrapper{
+width: 29vw !important;
+height: 16.2vw !important; 
+}
+
+.rdrMonthName {
+  text-align: center !important;
+  margin-top: -1vw !important;
+}
+
+.rdrCalendarWrapper {
+  color: #000000;
+  font-size: 0.7vw !important; 
+}
+
+.rdrMonthAndYearWrapper {
+  align-items: center;
+  height: 1vw !important; 
+  padding-top: 1vw !important; 
+}
+
+/* Custom Footer buttons styling */
+.footer-buttons {
+  display: flex;
+  justify-content: flex-end;
+  border-bottom-right-radius:1vw ;
+  border-bottom-left-radius:1vw ;
+  gap: 0.5vw;
+  padding: 0.5vw;
+  background-color: #ffffff;
+  border-top: 0.1vw solid #ddd;
+}
+
+element.style {
+  color: rgb(204, 219, 238);
+}
+
+
+/* Hide default number input arrows for all browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* For Firefox */
+}
+

@@ -2,16 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../Assets/Logo.png";
 import simplelogo from "../../Assets/simplelogo.png";
-const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-  const [selectedModule, setSelectedModule] = useState(1);
+import "../../App.css";
+import Modal from "../Modal/DateModal";
+import { RiLogoutBoxFill } from "react-icons/ri";
+
+const Sidebar = ({
+  isSidebarOpen,
+  setIsSidebarOpen,
+  selectedModule,
+  setSelectedModule,
+}) => {
+  const navigation = useNavigate();
+  const [openLogoutModal, setOpenLogoutModal] = useState(false);
   const [nearbyModules, setNearbyModules] = useState({
     up: 0,
     down: 2,
   });
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-  const navigation = useNavigate();
+
   const handleSelectModule = (module) => {
     setSelectedModule(module);
     setNearbyModules({
@@ -20,52 +27,39 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     });
   };
 
-const CurrentModule= ((selectedModule) =>{
-  if(selectedModule === 1){
-    navigation("/sales"); 
-  }
-  else if(selectedModule === 2){
-    navigation("/user"); 
-  }
-  else if(selectedModule === 3){
-    navigation("/sales"); 
-  }
-  else if(selectedModule === 4){
-    navigation("/sales"); 
-  }
-  else if(selectedModule === 5){
-    navigation("/purchase"); 
-  }
-  else if(selectedModule === 6){
-    navigation("/inventory"); 
-  }
-  else if(selectedModule === 7){
-    navigation("/");
-  }
-  else if(selectedModule === 8){
-    navigation("/sales"); 
-  }
-  else if(selectedModule === 9){
-    navigation("/sales"); 
-  }
-  else if(selectedModule === 10){
-    navigation("/sales"); 
-  }
-  else if(selectedModule === 11){
-    navigation("/sales"); 
-  }
-})
+  useEffect(() => {
+    const currentModule = (selectedModule) => {
+      if (selectedModule === 1) {
+        navigation("/dashboard");
+      } else if (selectedModule === 2) {
+        navigation("/user");
+      } else if (selectedModule === 3) {
+        navigation("/dashboard");
+      } else if (selectedModule === 4) {
+        navigation("/sales");
+      } else if (selectedModule === 5) {
+        navigation("/purchase");
+      } else if (selectedModule === 6) {
+        navigation("/inventory");
+      } else if (selectedModule === 7) {
+        navigation("/");
+      } else if (selectedModule === 8) {
+        navigation("/dashboard");
+      } else if (selectedModule === 9) {
+        navigation("/dashboard");
+      } else if (selectedModule === 10) {
+        navigation("/dashboard");
+      }
+    };
 
-
-useEffect(()=>{
-  CurrentModule(selectedModule);
-}, [selectedModule])
+    currentModule(selectedModule);
+  }, [selectedModule, navigation]);
 
   return (
     <div
       className={`h-screen transition-all duration-300 ease-in-out overflow-hidden ${
         isSidebarOpen ? "w-[15vw]" : "w-[5vw]"
-      } text-white flex flex-col relative z-20 `}
+      } text-white flex flex-col relative z-20`}
     >
       <div className="p-[1vw]">
         <img
@@ -76,24 +70,49 @@ useEffect(()=>{
           className="w-[10vw]"
         />
       </div>
-
-      <div className="absolute right-[0vw] top-[4vw] z-10">
-        <svg
-          width="2vw"
-          height="2vw"
-          viewBox="0 0 35 35"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={toggleSidebar}
-          className="cursor-pointer"
-        >
-          <circle cx="17.624" cy="17.5029" r="16.6729" fill="#58724F" />
-          <path
-            d="M8.65625 18.3691C7.98958 17.9842 7.98958 17.0219 8.65625 16.637L21.3588 9.30323C22.0255 8.91833 22.8588 9.39945 22.8588 10.1693V24.8369C22.8588 25.6067 22.0255 26.0878 21.3588 25.7029L8.65625 18.3691Z"
-            fill="white"
-          />
-        </svg>
-      </div>
+      {/* <div className="absolute right-[0vw] top-[4vw] z-10">
+        {isSidebarOpen ? (
+          <svg
+            width="1.5vw"
+            height="1.5vw"
+            viewBox="0 0 35 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={toggleSidebar}
+            className={`cursor-pointer animated-svg ${
+              animate ? "move-right-left" : ""
+            }`}
+          >
+            <circle cx="17.624" cy="17.5029" r="16.6729" fill="#58724F" />
+            <path
+              d="M8.65625 18.3691C7.98958 17.9842 7.98958 17.0219 8.65625 16.637L21.3588 9.30323C22.0255 8.91833 22.8588 9.39945 22.8588 10.1693V24.8369C22.8588 25.6067 22.0255 26.0878 21.3588 25.7029L8.65625 18.3691Z"
+              fill="white"
+            />
+          </svg>
+        ) : (
+          <svg
+            width="1.5vw"
+            height="1.5vw"
+            viewBox="0 0 34 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={toggleSidebar}
+            className="cursor-pointer"
+          >
+            <circle
+              cx="16.6729"
+              cy="16.6729"
+              r="16.6729"
+              transform="matrix(-1 0 0 1 33.5674 0.637695)"
+              fill="#58724F"
+            />
+            <path
+              d="M25.8623 18.1768C26.529 17.7919 26.529 16.8296 25.8623 16.4447L13.1598 9.1109C12.4931 8.726 11.6598 9.20713 11.6598 9.97693L11.6598 24.6446C11.6598 25.4144 12.4931 25.8955 13.1598 25.5106L25.8623 18.1768Z"
+              fill="white"
+            />
+          </svg>
+        )}
+      </div> */}
       {isSidebarOpen && selectedModule === 1 && nearbyModules.down === 2 ? (
         <>
           <div className="absolute right-0 top-[4vw]">
@@ -106,11 +125,25 @@ useEffect(()=>{
       ) : (
         ""
       )}
+      {!isSidebarOpen && selectedModule === 1 && nearbyModules.down === 2 ? (
+        <>
+          <div className="absolute right-0 top-[3.8vw]">
+            <div className="w-[1.8vw] h-[1.8vw] bg-white"></div>
+          </div>
+          <div className="absolute right-0 top-[3.8vw]">
+            <div className="w-[1.8vw] h-[1.8vw] bg-[#9bb893] rounded-br-full"></div>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
       <label className="text-[1vw] pl-[2vw]">{isSidebarOpen && "MENU"}</label>
       <div className="flex flex-col  pt-[1vw]">
         <div
           onClick={() => handleSelectModule(1)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2.2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1.1vw]"
+          } cursor-pointer relative ${
             selectedModule === 1 ? "bg-white text-[#58724F] rounded-l-full" : ""
           }`}
         >
@@ -126,11 +159,26 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen && nearbyModules.up === 1 ? (
+            <>
+              <div className="absolute right-0 top-[1.5vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[0.9vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#9bb893] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.5vw"
-            height="1.5vw"
+            // width="1.5vw"
+            // height="1.5vw"
             viewBox="0 0 40 40"
             fill="none"
+            className={` ${
+              isSidebarOpen ? "w-[1.5vw] h-[1.5vw]" : "w-[1.90vw] h-[1.90vw]"
+            }`}
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -156,7 +204,9 @@ useEffect(()=>{
         </div>
         <div
           onClick={() => handleSelectModule(2)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 2 ? "bg-white text-[#58724F] rounded-l-full" : ""
           }  `}
         >
@@ -167,6 +217,20 @@ useEffect(()=>{
               </div>
               <div className="absolute right-0 top-0">
                 <div className="w-[3.5vw] h-[3.5vw] bg-[#8DB396] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen &&
+          selectedModule !== 2 &&
+          nearbyModules.down === 2 ? (
+            <>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#9bb893] rounded-tr-full"></div>
               </div>
             </>
           ) : (
@@ -196,9 +260,22 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen && selectedModule === 3 && nearbyModules.up === 2 ? (
+            <>
+              <div className="absolute right-0 top-[1.2vw]">
+                <div className="w-[1.9vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.9vw] h-[2.5vw] bg-[#9bb893] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.7vw"
-            height="1.7vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.7vw] h-[1.7vw]" : "w-[2.1vw] h-[2.1vw]"
+            }`}
             viewBox="0 0 54 42"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +313,9 @@ useEffect(()=>{
         </div>{" "}
         <div
           onClick={() => handleSelectModule(3)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 3 ? "bg-white text-[#8DB396] rounded-l-full" : ""
           } `}
         >
@@ -264,10 +343,34 @@ useEffect(()=>{
           ) : (
             ""
           )}
-
+          {!isSidebarOpen && nearbyModules.down === 3 ? (
+            <>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.9vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.9vw] h-[2.5vw] bg-[#9bb893] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen && selectedModule === 4 && nearbyModules.up === 3 ? (
+            <>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.9vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.9vw] h-[2.5vw] bg-[#9bb893] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.5vw"
-            height="1.6vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.5vw] h-[1.6vw]" : "w-[2.1vw] h-[2.1vw]"
+            }`}
             viewBox="0 0 48 50"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -309,7 +412,9 @@ useEffect(()=>{
         </div>{" "}
         <div
           onClick={() => handleSelectModule(4)}
-          className={`flex items-center gap-x-[1vw]  py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 4 ? "bg-white text-[#58724F] rounded-l-full" : ""
           } ${nearbyModules.down === 4 ? "rounded-tr-full" : ""}`}
         >
@@ -320,6 +425,20 @@ useEffect(()=>{
               </div>
               <div className="absolute right-0 top-0">
                 <div className="w-[3.5vw] h-[3.5vw] bg-[#8AB296] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen &&
+          selectedModule === 3 &&
+          nearbyModules.down === 4 ? (
+            <>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.9vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.9vw] h-[2.5vw] bg-[#9bb893] rounded-tr-full"></div>
               </div>
             </>
           ) : (
@@ -337,9 +456,23 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen && selectedModule === 5 && nearbyModules.up === 4 ? (
+            <>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#9bb893] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+
           <svg
-            width="1.5vw"
-            height="1.7vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.6vw] h-[1.7vw]" : "w-[2.1vw] h-[2.1vw]"
+            }`}
             viewBox="0 0 44 55"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -357,7 +490,9 @@ useEffect(()=>{
         </div>{" "}
         <div
           onClick={() => handleSelectModule(5)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 5 ? "bg-white text-[#58724F] rounded-l-full" : ""
           }`}
         >
@@ -368,6 +503,20 @@ useEffect(()=>{
               </div>
               <div className="absolute right-0 top-0">
                 <div className="w-[3.5vw] h-[3.5vw] bg-[#8AB296] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen &&
+          selectedModule === 4 &&
+          nearbyModules.down === 5 ? (
+            <>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#9bb893] rounded-tr-full"></div>
               </div>
             </>
           ) : (
@@ -385,9 +534,22 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen && selectedModule === 6 && nearbyModules.up === 5 ? (
+            <>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#9bb893] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.6vw"
-            height="1.5vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.6vw] h-[1.5vw]" : "w-[2.1vw] h-[2.1vw]"
+            }`}
             viewBox="0 0 44 45"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -429,7 +591,9 @@ useEffect(()=>{
         </div>{" "}
         <div
           onClick={() => handleSelectModule(6)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 6 ? "bg-white text-[#58724F] rounded-l-full" : ""
           }`}
         >
@@ -445,21 +609,48 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen &&
+          selectedModule === 5 &&
+          nearbyModules.down === 6 ? (
+            <>
+              <div className="absolute right-0 top-[0vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[0vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#9bb893] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           {isSidebarOpen && selectedModule === 7 && nearbyModules.up === 6 ? (
             <>
               <div className="absolute right-0 top-[0.2vw]">
                 <div className="w-[4vw] h-[3vw] bg-white"></div>
               </div>
               <div className="absolute right-0 top-[0.2vw]">
-                <div className="w-[4vw] h-[3vw] bg-[#87B095] rounded-br-full"></div>
+                <div className="w-[4vw] h-[3vw] bg-[#8CB397] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen && selectedModule === 7 && nearbyModules.up === 6 ? (
+            <>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#97b4a2] rounded-br-full"></div>
               </div>
             </>
           ) : (
             ""
           )}
           <svg
-            width="1.6vw"
-            height="1.6vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.6vw] h-[1.6vw]" : "w-[2.1vw] h-[2.1vw]"
+            }`}
             viewBox="0 0 46 51"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -477,7 +668,9 @@ useEffect(()=>{
         </div>{" "}
         <div
           onClick={() => handleSelectModule(7)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 7 ? "bg-white text-[#58724F] rounded-l-full" : ""
           }`}
         >
@@ -488,6 +681,20 @@ useEffect(()=>{
               </div>
               <div className="absolute right-0 top-0">
                 <div className="w-[3.5vw] h-[3.5vw] bg-[#87B096] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen &&
+          selectedModule === 6 &&
+          nearbyModules.down === 7 ? (
+            <>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-tr-full"></div>
               </div>
             </>
           ) : (
@@ -505,9 +712,22 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen && selectedModule === 8 && nearbyModules.up === 7 ? (
+            <>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1.1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.5vw"
-            height="1.5vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.5vw] h-[1.5vw]" : "w-[2.1vw] h-[2.1vw]"
+            }`}
             viewBox="0 0 39 40"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -545,7 +765,9 @@ useEffect(()=>{
         </div>{" "}
         <div
           onClick={() => handleSelectModule(8)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 8 ? "bg-white text-[#58724F] rounded-l-full" : ""
           }`}
         >
@@ -561,9 +783,36 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen &&
+          selectedModule === 7 &&
+          nearbyModules.down === 8 ? (
+            <>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen && selectedModule === 9 && nearbyModules.up === 8 ? (
+            <>
+              <div className="absolute right-0 top-[1.8vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1.8vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.6vw"
-            height="1.6vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.6vw] h-[1.6vw]" : "w-[2.1vw] h-[2.1vw]"
+            }`}
             viewBox="0 0 42 39"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -589,7 +838,7 @@ useEffect(()=>{
         </div>{" "}
         <div className="flex items-center justify-center py-[0.3vw] relative">
           {/* border */}
-          <div className="border-[0.1vw] w-[60%]  border-white "></div>
+          <div className="border-[0.1vw] w-[60%]  border-[#FFFFFF80] "></div>
           {isSidebarOpen && selectedModule === 8 && nearbyModules.down === 9 ? (
             <>
               <div className="absolute right-0 top-[0vw]">
@@ -597,6 +846,20 @@ useEffect(()=>{
               </div>
               <div className="absolute right-0 top-[0vw]">
                 <div className="w-[3vw] h-[3vw] bg-[#84AE95] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {!isSidebarOpen &&
+          selectedModule === 8 &&
+          nearbyModules.down === 9 ? (
+            <>
+              <div className="absolute right-0 top-[0vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[0vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-tr-full"></div>
               </div>
             </>
           ) : (
@@ -614,10 +877,24 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {isSidebarOpen && selectedModule === 9 && nearbyModules.up === 8 ? (
+            <>
+              <div className="absolute right-0 top-[1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[1vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#8AB296] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
         </div>
         <div
           onClick={() => handleSelectModule(9)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 9 ? "bg-white text-[#58724F] rounded-l-full" : ""
           }`}
         >
@@ -633,9 +910,22 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen && selectedModule === 10 && nearbyModules.up === 9 ? (
+            <>
+              <div className="absolute right-0 top-[0.9vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[0.9vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.5vw"
-            height="1.5vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.5vw] h-[1.5vw]" : "w-[1.9vw] h-[1.9vw]"
+            }`}
             viewBox="0 0 46 46"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -653,7 +943,9 @@ useEffect(()=>{
         </div>{" "}
         <div
           onClick={() => handleSelectModule(10)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 10
               ? "bg-white text-[#58724F] rounded-l-full"
               : ""
@@ -673,6 +965,20 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen &&
+          selectedModule === 9 &&
+          nearbyModules.down === 10 ? (
+            <>
+              <div className="absolute right-0 top-[0vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           {isSidebarOpen && selectedModule === 11 && nearbyModules.up === 10 ? (
             <>
               <div className="absolute right-0 top-[0.2vw]">
@@ -685,9 +991,24 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen &&
+          selectedModule === 11 &&
+          nearbyModules.up === 10 ? (
+            <>
+              <div className="absolute right-0 top-[0.9vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[0.9vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-br-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <svg
-            width="1.5vw"
-            height="1.5vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.5vw] h-[1.5vw]" : "w-[1.9vw] h-[1.9vw]"
+            }`}
             viewBox="0 0 46 47"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -704,14 +1025,16 @@ useEffect(()=>{
           )}
         </div>{" "}
         <div
-          onClick={() => handleSelectModule(11)}
-          className={`flex items-center gap-x-[1vw] py-[0.75vw] pl-[2vw] cursor-pointer relative ${
+          onClick={() => setOpenLogoutModal(true)}
+          className={`flex items-center gap-x-[1vw] py-[0.75vw] ${
+            isSidebarOpen ? "pl-[2vw]" : "pl-[1vw]"
+          } cursor-pointer relative ${
             selectedModule === 11
               ? "bg-white text-[#58724F] rounded-l-full"
               : ""
           }`}
         >
-          {isSidebarOpen &&
+           {isSidebarOpen &&
           selectedModule === 10 &&
           nearbyModules.down === 11 ? (
             <>
@@ -725,7 +1048,21 @@ useEffect(()=>{
           ) : (
             ""
           )}
-          {isSidebarOpen && selectedModule === 11 ? (
+           {!isSidebarOpen &&
+          selectedModule === 10 &&
+          nearbyModules.down === 11 ? (
+            <>
+              <div className="absolute right-0 top-[0vw]">
+                <div className="w-[1.8vw] h-[2.5vw] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-0">
+                <div className="w-[1.8vw] h-[2.5vw] bg-[#90b49d] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          {/* {isSidebarOpen && selectedModule === 11 ? (
             <>
               <div className="absolute right-0 top-[3.15vw] outline-none">
                 <div className="w-[3vw] h-[3vw] bg-white"></div>
@@ -737,9 +1074,22 @@ useEffect(()=>{
           ) : (
             ""
           )}
+          {!isSidebarOpen && selectedModule === 11 ? (
+            <>
+              <div className="absolute right-0 top-[3.4vw] outline-none">
+                <div className="w-[1.8vw] h-[3vh] bg-white"></div>
+              </div>
+              <div className="absolute right-0 top-[3.4vw] outline-none">
+                <div className="w-[1.8vw] h-[3vh] bg-[#90b49d] rounded-tr-full"></div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}  */}
           <svg
-            width="1.5vw"
-            height="1.5vw"
+            className={` ${
+              isSidebarOpen ? "w-[1.5vw] h-[1.5vw]" : "w-[1.9vw] h-[1.9vw]"
+            }`}
             viewBox="0 0 42 39"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -776,6 +1126,44 @@ useEffect(()=>{
       ) : (
         ""
       )} */}
+
+      <Modal
+        isOpen={openLogoutModal}
+        width={"10vw"}
+        onClose={() => setOpenLogoutModal(false)}
+      >
+        <div className="flex flex-col px-[4vw] py-[1vw] justify-center items-center">
+          <span className="text-center pt-[1vw]">
+            <RiLogoutBoxFill color="#117283" size={"3vw"} />
+          </span>
+          <span className="text-[1.3vw] pt-[1vw] text-black font-bold text-center">
+            Are you sure?
+          </span>
+          <span className="text-[1vw] text-black text-center pt-[1vw]">
+            Want to Logout this Account?
+          </span>
+        </div>
+        <div className="flex flex-row pb-[1vw] gap-[1vw] justify-center items-center mt-[0.5vw]">
+          <button
+            className="h-[2.5vw] w-[6.5vw] bg-white border border-[#117283] text-black rounded-[0.5vw]"
+            onClick={() => {
+              setOpenLogoutModal(false);
+            }}
+          >
+            No
+          </button>
+          <button
+            className="h-[2.5vw] w-[6.5vw] bg-[#117283] rounded-[0.5vw]"
+            onClick={() => {
+              navigation("/");
+              window.location.reload();
+              sessionStorage.removeItem("token");
+            }}
+          >
+            Yes
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };

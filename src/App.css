@@ -27,7 +27,7 @@
   border-radius: 0.65vw;
 }
 
-:where(.css-dev-only-do-not-override-1k979oh).ant-table-wrapper
+.ant-table-wrapper
   .ant-table-container
   table
   > thead
@@ -36,17 +36,78 @@
   border-start-start-radius: 0.6vw;
 }
 
-:where(.css-dev-only-do-not-override-16ehen0).ant-table-wrapper .ant-table-container table>thead>tr:first-child >*:first-child {
+.ant-table-wrapper .ant-table-container table>thead>tr:first-child >*:first-child {
   border-start-start-radius: 8px;
   border-top-left-radius: 1.2vw;
   border-bottom-left-radius: 1.2vw;
 }
 
-:where(.css-dev-only-do-not-override-16ehen0).ant-table-wrapper .ant-table-container table>thead>tr:first-child >*:last-child {
+.ant-table-wrapper .ant-table-container table>thead>tr:first-child >*:last-child {
   border-start-end-radius: 8px;
   border-top-right-radius: 1.2vw;
   border-bottom-right-radius: 1.2vw;
 }
+
+.ant-table-wrapper {
+  clear: both;
+  max-width: 100%;
+  height: 68vh !important;
+}
+
+.ant-spin-nested-loading {
+  position: relative;
+  height: 68vh !important;
+}
+
+.ant-spin-nested-loading .ant-spin-container {
+  position: relative;
+  transition: opacity 0.3s;
+  height: 68vh !important;
+}
+
+.ant-table-wrapper {
+  position: relative;
+  height: 68vh !important;
+}
+
+.ant-table-content{
+  width: 100%;
+  height: 68vh !important;
+}
+
+.custom-table .ant-table-tbody > tr {
+  position: relative; /* Ensure the shadow applies only to the row */
+  z-index: 1;
+}
+
+.custom-table {
+  height: 68vh; 
+  width: 100%;
+}
+
+.custom-table .ant-table-placeholder {
+  height: 68vh; 
+  width: 100%;
+}
+
+.ant-table-thead{
+  height: 4.5vh !important;
+}
+
+.ant-table-wrapper table {
+  width: 100%;
+  /* height: 68vh !important; */
+}
+
+.ant-table-container {
+  width: 100%;
+  /* height: 68vh !important; */
+}
+
+.ant-table-row .ant-table-row-level-0 .custom-row-0 {
+margin-top: 10vw !important;
+}
+
 /* Custom Checkbox Size */
 .custom-table .ant-checkbox-inner {
   /* margin-left: 1.5vw; */
@@ -86,7 +147,7 @@
 }
 .custom-table .ant-table-tbody > tr + tr {
   margin-top: 1vw; /* Add space between rows */
-  height: 0.5vw;
+  height: 0.5vh;
   padding: 0;
 }
 
@@ -199,3 +260,29 @@ input[type="number"] {
   -moz-appearance: textfield; /* For Firefox */
 }
 
+
+.apexcharts-canvas .apexchartsjwcszlb6 .apexcharts-theme- {
+height: 60vw !important;
+width: 60vw !important;
+}
+
+
+/* .animated-svg {
+  transition: transform 1s ease-in-out;
+}
+
+.move-right-left {
+  animation: move-right-left 2s ease-in-out forwards;
+}
+
+@keyframes move-right-left {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(100px); 
+  }
+  100% {
+    transform: translateX(0); 
+  }
+} */

@@ -1,62 +1,80 @@
 import React, { useState } from "react";
-import { ConfigProvider, Table } from "antd";
+import { ConfigProvider, Table, Tooltip } from "antd";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import "../../App.css";
-import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
-export default function Payables({currentItems}) {
+
+export default function Payables({ setIsModalPopup, setRowCount, currentItems }) {
+
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const columns = [
     {
-      title: <span className="text-[1vw] pl-[0.4vw]">Invoice ID</span>,
+      title: (
+        <span className="text-[0.95vw] pl-[0.4vw] font-normal">Invoice ID</span>
+      ),
       dataIndex: "id",
       align: "center",
       sorter: (a, b) => a.id?.localeCompare(b.id),
-      render: (id) => <span className="text-[0.9vw] flex p-[0.8vw] pl-[4vw]">{id}</span>,
+      render: (id) => (
+        <span className="text-[0.95vw] flex p-[0.72vw] pl-[4vw]">{id}</span>
+      ),
     },
     {
-      title: <span className="text-[1vw]">Customer Name</span>,
+      title: (
+        <span className="text-[0.95vw] pl-[2vw] font-normal">
+          Customer Name
+        </span>
+      ),
       dataIndex: "name",
-      align: "center",
+      width: "14vw",
       sorter: (a, b) => a.name?.localeCompare(b.name),
-      render: (name) => <span className="text-[0.9vw]">{name}</span>, // Use parentheses here to directly return the JSX
+      render: (name) =>
+        name?.length > 20 ? (
+          <Tooltip placement="top" title={name} className="cursor-pointer">
+            <div className="text-[0.85vw] pl-[2.5vw]">
+              {name?.slice(0, 22)}...
+            </div>
+          </Tooltip>
+        ) : (
+          <div className="text-[0.85vw] pl-[2.5vw]">{name}</div>
+        ),
     },
     {
-      title: <span className="text-[1vw]">Invoice Date</span>,
+      title: <span className="text-[0.95vw] font-normal">Invoice Date</span>,
       dataIndex: "invoicedate",
       align: "center",
       sorter: (a, b) => a.invoicedate?.localeCompare(b.invoicedate),
       render: (invoicedate) => (
-        <span className="text-[0.9vw]">{invoicedate}</span>
+        <span className="text-[0.85vw]">{invoicedate}</span>
       ),
     },
     {
-      title: <span className="text-[1vw]">Due Date</span>,
+      title: <span className="text-[0.95vw] font-normal">Due Date</span>,
       dataIndex: "duedate",
       align: "center",
       sorter: (a, b) => a.duedate?.localeCompare(b.duedate),
-      render: (duedate) => <span className="text-[0.9vw]">{duedate}</span>,
+      render: (duedate) => <span className="text-[0.85vw]">{duedate}</span>,
     },
     {
-      title: <span className="text-[1vw]">Total Amount</span>,
+      title: <span className="text-[0.95vw] font-normal">Total Amount</span>,
       dataIndex: "amount",
       align: "center",
       sorter: (a, b) => a.amount?.localeCompare(b.amount),
-      render: (amount) => <span className="text-[0.9vw]">{amount}</span>,
+      render: (amount) => <span className="text-[0.85vw]">{amount}</span>,
     },
     {
-      title: <span className="text-[1vw]">Balance Due</span>,
+      title: <span className="text-[0.95vw] font-normal">Balance Due</span>,
       dataIndex: "balance",
       align: "center",
       sorter: (a, b) => a.balance?.localeCompare(b.balance),
-      render: (balance) => <span className="text-[0.9vw]">{balance}</span>,
+      render: (balance) => <span className="text-[0.85vw]">{balance}</span>,
     },
     {
-      title: <span className="text-[1vw]">Payment Status</span>,
+      title: <span className="text-[0.95vw] font-normal">Payment Status</span>,
       dataIndex: "status",
       align: "center",
-      width:"5vw",
+      width: "5vw",
       render: (status) => (
         <div className="flex flex-row gap-[1vw] justify-center items-center">
           <span
@@ -93,6 +111,8 @@ export default function Payables({currentItems}) {
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("Selected row keys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
+    setIsModalPopup(newSelectedRowKeys?.length > 0);
+    setRowCount(newSelectedRowKeys?.length);
   };
 
   const rowSelection = {

@@ -1,56 +1,80 @@
 import React, { useState } from "react";
-import { ConfigProvider, Table } from "antd";
+import { ConfigProvider, Table, Tooltip } from "antd";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import "../../App.css";
 
-export default function Receivables ({currentItems}) {
- const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
+export default function Receivables({ setIsModalPopup, setRowCount, currentItems }) {
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const columns = [
     {
-      title: <span className="text-[0.9vw] pl-[2vw]">Invoice ID</span>,
+      title: (
+        <span className="text-[0.95vw] pl-[0.4vw] font-normal">Invoice ID</span>
+      ),
       dataIndex: "id",
       align: "center",
-      render: (id) => <span className="text-[0.80vw] flex h-[1.80vw] w-[4vw] pl-[4vw]">{id}</span>,
-    },
-    {
-      title: <span className="text-[0.9vw]">Customer Name</span>,
-      dataIndex: "name",
-      align: "center",
-      render: (name) => <span className="text-[0.80vw]">{name}</span>, // Use parentheses here to directly return the JSX
-    },
-    {
-      title: <span className="text-[0.9vw]">Invoice Date</span>,
-      dataIndex: "invoicedate",
-      align: "center",
-      render: (invoicedate) => (
-        <span className="text-[0.80vw]">{invoicedate}</span>
+      sorter: (a, b) => a.id?.localeCompare(b.id),
+      render: (id) => (
+        <span className="text-[0.95vw] flex p-[0.72vw] pl-[4vw]">{id}</span>
       ),
     },
     {
-      title: <span className="text-[0.9vw]">Due Date</span>,
+      title: (
+        <span className="text-[0.95vw] pl-[2vw] font-normal">
+          Customer Name
+        </span>
+      ),
+      dataIndex: "name",
+      width: "14vw",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
+      render: (name) =>
+        name?.length > 20 ? (
+          <Tooltip placement="top" title={name} className="cursor-pointer">
+            <div className="text-[0.85vw] pl-[2.5vw]">
+              {name?.slice(0, 22)}...
+            </div>
+          </Tooltip>
+        ) : (
+          <div className="text-[0.85vw] pl-[2.5vw]">{name}</div>
+        ),
+    },
+    {
+      title: <span className="text-[0.95vw] font-normal">Invoice Date</span>,
+      dataIndex: "invoicedate",
+      align: "center",
+      sorter: (a, b) => a.invoicedate?.localeCompare(b.invoicedate),
+      render: (invoicedate) => (
+        <span className="text-[0.85vw]">{invoicedate}</span>
+      ),
+    },
+    {
+      title: <span className="text-[0.95vw] font-normal">Due Date</span>,
       dataIndex: "duedate",
       align: "center",
-      render: (duedate) => <span className="text-[0.80vw]">{duedate}</span>,
+      sorter: (a, b) => a.duedate?.localeCompare(b.duedate),
+      render: (duedate) => <span className="text-[0.85vw]">{duedate}</span>,
     },
     {
-      title: <span className="text-[0.9vw]">Total Amount</span>,
+      title: <span className="text-[0.95vw] font-normal">Total Amount</span>,
       dataIndex: "amount",
       align: "center",
-      render: (amount) => <span className="text-[0.80vw]">{amount}</span>,
+      sorter: (a, b) => a.amount?.localeCompare(b.amount),
+      render: (amount) => <span className="text-[0.85vw]">{amount}</span>,
     },
     {
-      title: <span className="text-[0.9vw]">Balance Due</span>,
+      title: <span className="text-[0.95vw] font-normal">Balance Due</span>,
       dataIndex: "balance",
       align: "center",
-      render: (balance) => <span className="text-[0.80vw]">{balance}</span>,
+      sorter: (a, b) => a.balance?.localeCompare(b.balance),
+      render: (balance) => <span className="text-[0.85vw]">{balance}</span>,
     },
     {
-      title: <span className="text-[0.9vw]">Payment Status</span>,
+      title: <span className="text-[0.95vw] font-normal">Payment Status</span>,
       dataIndex: "status",
       align: "center",
-      width:"5vw",
+      width: "5vw",
       render: (status) => (
         <div className="flex flex-row gap-[1vw] justify-center items-center">
           <span
@@ -87,11 +111,11 @@ export default function Receivables ({currentItems}) {
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
+    setIsModalPopup(newSelectedRowKeys?.length > 0);
+    setRowCount(newSelectedRowKeys?.length);
   };
 
-
-  const rowSelection = {
-    selectedRowKeys,
+  const rowSelection = { selectedRowKeys,
     onChange: onSelectChange,
     selections: [
       Table.SELECTION_ALL,
@@ -130,35 +154,35 @@ export default function Receivables ({currentItems}) {
 
   return (
     <>
-    <div className="mt-[1vw]">
-      <ConfigProvider
-        theme={{
-          components: {
-            Table: {
-              // Customize hover styles
-              rowHoverBg: "rgb(255, 255, 255, 0)",
-              rowSelectedBg: "rgb(255, 255, 255, 0)",
-              rowSelectedHoverBg: "rgb(255, 255, 255, 0)",
-              borderRadius: "2vw", // Row border-radius
-              shadowHover: "0 0.5vw 1vw rgba(0, 0, 0, 0.15)", // Shadow for hover
-              //shadowSelected: '0 4px 8px rgba(0, 0, 0, 0.2)', // Shadow for selected
+      <div className="mt-[0.4vw]">
+        <ConfigProvider
+          theme={{
+            components: {
+              Table: {
+                // Customize hover styles
+                rowHoverBg: "rgb(255, 255, 255, 0)",
+                rowSelectedBg: "rgb(255, 255, 255, 0)",
+                rowSelectedHoverBg: "rgb(255, 255, 255, 0)",
+                borderRadius: "2vw", // Row border-radius
+                shadowHover: "0 0.5vw 1vw rgba(0, 0, 0, 0.15)", // Shadow for hover
+                //shadowSelected: '0 4px 8px rgba(0, 0, 0, 0.2)', // Shadow for selected
+              },
             },
-          },
-        }}
-      >
-        <Table
-          className="custom-table"
-          rowSelection={{
-            type: "checkbox",
-            ...rowSelection,
           }}
-          columns={columns}
-          pagination={false}
-          dataSource={currentItems}
-          rowClassName={(record, index) => `custom-row-${index}`}
-        />
-      </ConfigProvider>
-    </div>
-  </>
+        >
+          <Table
+            className="custom-table"
+            rowSelection={{
+              type: "checkbox",
+              ...rowSelection,
+            }}
+            columns={columns}
+            pagination={false}
+            dataSource={currentItems}
+            rowClassName={(record, index) => `custom-row-${index}`}
+          />
+        </ConfigProvider>
+      </div>
+    </>
   );
-};
+}
